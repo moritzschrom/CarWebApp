@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>16</java.version>
 		<testcontainers.version>1.15.3</testcontainers.version>
+
+		<skipUnitTests>false</skipUnitTests>
+		<skipExtendedTests>false</skipExtendedTests>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -83,6 +86,34 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>${skipUnitTests}</skip>
+					<includes>
+						<include>**/*.*</include>
+					</includes>
+					<excludedGroups>extended</excludedGroups>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<skip>${skipExtendedTests}</skip>
+					<includes>
+						<include>**/*.*</include>
+					</includes>
+					<groups>extended</groups>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
